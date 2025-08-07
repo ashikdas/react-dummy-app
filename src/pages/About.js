@@ -1,5 +1,6 @@
 function About() {
-  return <h2>About Us: We are building a dummy app!</h2>;
+  return <h1>About Me</h1>;
 }
 export default About;
+
 
