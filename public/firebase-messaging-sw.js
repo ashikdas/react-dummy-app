@@ -14,7 +14,7 @@ function logNotificationAction(actionType, data) {
     },
     body: JSON.stringify({
       ...data,
-      timestamp: new Date().getTime() * 1000
+      statusUpdatedTime: new Date().getTime() * 1000
     })
   }).then(response => {
     console.log('API log response:', response.status);
@@ -82,15 +82,25 @@ function displayNotification(payload) {
   console.log("Showing notification:", notificationTitle, notificationOptions); // Debug log
   self.registration.showNotification(notificationTitle, notificationOptions);
 
-  if (autoHideNotification && expirePushAutomatically && expirePushAfter > 0) {
-    setTimeout(() => {
-      self.registration.getNotifications().then(notifications => {
-        notifications.forEach(notification => {
-          notification.close();
-        });
-      });
-    }, convertToMilliseconds(expirePushAfter, expirePushAfterUnit));
-  }
+  //if(autoHideNotification) {
+  //  setTimeout(() => {
+  //    self.registration.getNotifications().then(notifications => {
+  //    notifications.forEach(notification => {
+  //      notification.close();
+  //    });
+  //  });
+  //  }, 5000);
+  //}
+
+  //if (expirePushAutomatically && expirePushAfter > 0) {
+  //  setTimeout(() => {
+  //    self.registration.getNotifications().then(notifications => {
+  //      notifications.forEach(notification => {
+  //        notification.close();
+  //      });
+  //    });
+  //  }, convertToMilliseconds(expirePushAfter, expirePushAfterUnit));
+  //}
 }
 function convertToMilliseconds(value, unit) {
   switch (unit) {

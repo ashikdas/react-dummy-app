@@ -49,37 +49,7 @@
       var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(rc, s);
     })(document, window);
 
-    $(function () {
-
-      $_REVECHAT_API(function () {
-        try {
-
-          window.frames['reve-chat-widget-holder'].document.getElementById('reve-chat-widget-header').addEventListener('click', function (event) {
-
-            $_REVECHAT_Analytics.addClientVisitInfo("/chat-button");
-
-          });
-        }
-        catch (e) {
-
-        }
-
-        try {
-
-          window.frames['reve-chat-widget-holder'].document.getElementById('reve-chat-widget-body').addEventListener('click', function (event) {
-
-            $_REVECHAT_Analytics.addClientVisitInfo("/client-chat-window");
-
-          });
-        }
-        catch (e) {
-
-        }
-
-      });
-    });
-
-  </script>
+    </script>
 </body>
 
 </html>
