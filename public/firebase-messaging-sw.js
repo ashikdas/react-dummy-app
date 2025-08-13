@@ -14,7 +14,7 @@ function logNotificationAction(actionType, data) {
     },
     body: JSON.stringify({
       ...data,
-      statusUpdatedTime: new Date().getTime() * 1000
+      statusUpdatedTime: new Date().getTime()
     })
   }).then(response => {
     console.log('API log response:', response.status);
