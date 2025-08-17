@@ -77,6 +77,11 @@ function displayNotification(payload) {
       title: payload.data.button_2_title,
     });
   }
+  if(!autoHideNotification) {
+    notificationOptions.requireInteraction = true; 
+  } else {
+    notificationOptions.requireInteraction = false; 
+  }
 
   // Show notification with buttons
   console.log("Showing notification:", notificationTitle, notificationOptions); // Debug log
@@ -92,15 +97,15 @@ function displayNotification(payload) {
   //  }, 5000);
   //}
 
-  //if (expirePushAutomatically && expirePushAfter > 0) {
-  //  setTimeout(() => {
-  //    self.registration.getNotifications().then(notifications => {
-  //      notifications.forEach(notification => {
-  //        notification.close();
-  //      });
-  //    });
-  //  }, convertToMilliseconds(expirePushAfter, expirePushAfterUnit));
-  //}
+  if (expirePushAutomatically && expirePushAfter > 0) {
+    setTimeout(() => {
+      self.registration.getNotifications().then(notifications => {
+        notifications.forEach(notification => {
+          notification.close();
+        });
+      });
+    }, convertToMilliseconds(expirePushAfter, expirePushAfterUnit));
+  }
 }
 function convertToMilliseconds(value, unit) {
   switch (unit) {
