@@ -7,7 +7,7 @@ importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-com
 function logNotificationAction(actionType, data) {
   console.log(`Logging action: ${actionType}`, data);
 
-  fetch('https://test-chat-02.revechat.com/rest/v1/message-log-status', {
+  fetch('https://app.revechat.com/rest/v1/message-log-status', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
