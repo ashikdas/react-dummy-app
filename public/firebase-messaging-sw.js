@@ -4,45 +4,17 @@
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
 
-function logNotificationAction(actionType, data) {
-  console.log(`Logging action: ${actionType}`, data);
 
-  fetch('https://app.revechat.com/rest/v1/message-log-status', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      ...data,
-      statusUpdatedTime: new Date().getTime()
-    })
-  }).then(response => {
-    console.log('API log response:', response.status);
-  }).catch(error => {
-    console.error('API log failed:', error);
-  });
-}
 // Firebase configuration for revechatwebpush
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBL5ZN6mBVj7l_pdzS3iMX7gleJK7AJ3TU",
-//   authDomain: "revechatwebpush.firebaseapp.com",
-//   projectId: "revechatwebpush",
-//   storageBucket: "revechatwebpush.firebasestorage.app",
-//   messagingSenderId: "778472629703",
-//   appId: "1:778472629703:web:abd9dde24992f46a94a5e2",
-//   measurementId: "G-2TJ4MD84R9",
-// };
 const firebaseConfig = {
-  apiKey: "AIzaSyCL_Ct4vr3gOssN989DsVDMa3O5HGSoVk0",
-  authDomain: "campaign-webpush.firebaseapp.com",
-  projectId: "campaign-webpush",
-  storageBucket: "campaign-webpush.firebasestorage.app",
-  messagingSenderId: "1070142761417",
-  appId: "1:1070142761417:web:24859a22505158b9916018",
-  measurementId: "G-JWT36G8GMM"
+  apiKey: "AIzaSyBL5ZN6mBVj7l_pdzS3iMX7gleJK7AJ3TU",
+  authDomain: "revechatwebpush.firebaseapp.com",
+  projectId: "revechatwebpush",
+  storageBucket: "revechatwebpush.firebasestorage.app",
+  messagingSenderId: "778472629703",
+  appId: "1:778472629703:web:abd9dde24992f46a94a5e2",
+  measurementId: "G-2TJ4MD84R9",
 };
-
- 
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -77,27 +49,12 @@ function displayNotification(payload) {
       title: payload.data.button_2_title,
     });
   }
-  if(!autoHideNotification) {
-    notificationOptions.requireInteraction = true; 
-  } else {
-    notificationOptions.requireInteraction = false; 
-  }
 
   // Show notification with buttons
   console.log("Showing notification:", notificationTitle, notificationOptions); // Debug log
   self.registration.showNotification(notificationTitle, notificationOptions);
 
-  //if(autoHideNotification) {
-  //  setTimeout(() => {
-  //    self.registration.getNotifications().then(notifications => {
-  //    notifications.forEach(notification => {
-  //      notification.close();
-  //    });
-  //  });
-  //  }, 5000);
-  //}
-
-  if (expirePushAutomatically && expirePushAfter > 0) {
+  if (autoHideNotification && expirePushAutomatically && expirePushAfter > 0) {
     setTimeout(() => {
       self.registration.getNotifications().then(notifications => {
         notifications.forEach(notification => {
@@ -131,13 +88,6 @@ self.addEventListener("push", (event) => {
   } else {
     console.warn("Push event with no data");
   }
-  setTimeout(() => {
-    logNotificationAction('button_1_click', {
-      productType: "WEB_PUSH",
-      messageId: event?.data?.json()?.data?.message_id,
-      status: "DELIVERED"
-    });
-  }, 5000);
 });
 
 
@@ -155,13 +105,6 @@ self.addEventListener("notificationclick", (event) => {
     // Fallback to default URL if the notification body is clicked
     event.waitUntil(clients.openWindow(data.url));
   }
-  setTimeout(() => {
-    logNotificationAction('button_1_click', {
-      productType: "WEB_PUSH",
-      messageId: event?.notification?.data?.message_id,
-      status: "CLICKED"
-    });
-  }, 5000);
 });
 
 // Handle notification closes (when user dismisses it)
@@ -170,14 +113,4 @@ self.addEventListener("notificationclose", (event) => {
   const data = event.notification.data || {};
   console.log("Dismissed notification data:", data);
   
-  setTimeout(() => {
-    logNotificationAction('button_1_click', {
-      productType: "WEB_PUSH",
-      messageId: event?.notification?.data?.message_id,
-      status: "CLOSED"
-    });
-  }, 5000);
-  
 });
-
- 
